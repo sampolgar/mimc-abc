@@ -4,6 +4,8 @@
 
 In a world where we are all using digital credential wallets and want to verify multiple credentials together, for example, a KYC scenario. I proposed `identity binding` in my paper (to be uploaded somewhere) as a security property and instantiated it with sigma protocols proving equality of an identifier within credentials.
 
+![Identity Binding Image](identity_binding.png)
+
 Much of the existing literature shows benchmarks for anonymous credential systems like Idemix to be at 110ms, 220ms, 450ms for 1,2,3 credentials [1] or Microsoft’s U-Prove to be (180ms,460ms,600ms) for 1,2,3 credentials verified together[1]. That's not efficient enough!
 
 So this project confirms that it is actually efficient enought to be used and adding privacy costs 2.6x non-private scheme does (using PS based signatures and zero knowledge proofs.).
@@ -71,26 +73,6 @@ The project includes a comprehensive benchmarking suite to evaluate the performa
    ```sh
    cargo bench
    ```
-
-   This will run the benchmarks defined in credential_scenarios.rs, including:
-
-   - Non-private, non-batch verification
-   - Non-private batch verification
-   - Multi-credential batch verification
-   - Multi-issuer identity binding verification
-
-4. **Analyze Results**: The benchmark results will be displayed in the terminal, showing the performance of each verification method under different configurations (e.g., varying numbers of credentials and attributes).
-
-   For detailed analysis, check the [`benches_analysis`](benches_analysis) directory, which contains Python scripts for data extraction and visualization.
-
-I show execution times for verifying multiple credentials together with identity binding. The worst case scenario for 32 credentials from different issuers is 200ms which is very fast!
-![alt text](benches_analysis/extracts/identity_binding_combined_performance.png)
-
-## Technical Background
-
-MIMC-ABC employs position-binding commitments and zero-knowledge proofs to cryptographically bind credentials from distinct issuers to a single, private identifier. Our security model formalizes the identity binding property, ensuring anonymity and unforgeability even against colluding adversaries.
-
-Performance evaluations show that privacy-preserving multi-issuer verification, though approximately 3× slower than non-private baselines (e.g., 18.67ms vs. 6.77ms for 4 credentials), remains efficient for practical use.
 
 ## Citation
 
