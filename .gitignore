@@ -1,0 +1,10 @@
+**/.target/
+**/target/
+/target/
+Cargo.lock
+z_tex/*
+z_py_tests/
+**/.DS_Store
+**/.ipynb
+**/plots/
+**/extracts/
