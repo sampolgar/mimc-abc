@@ -12,15 +12,14 @@ So this project confirms that it is actually efficient enought to be used and ad
 
 I use a PS Signature [2] based off the construction in the UTT paper[3] and discuss this in [my Thesis](https://github.com/sampolgar/mphil)
 
-[1] Evaluation of Privacy-ABC Technologies - a Study on the Computational Efficieny https://link.springer.com/chapter/10.1007/978-3-319-41354-9_5
-[2] Short Randomizable Signature - David Pointcheval, Olivier Sanders: https://link.springer.com/chapter/10.1007/978-3-319-29485-8_7
+[1] Evaluation of Privacy-ABC Technologies - a Study on the Computational Efficieny https://link.springer.com/chapter/10.1007/978-3-319-41354-9_5  
+[2] Short Randomizable Signature - David Pointcheval, Olivier Sanders: https://link.springer.com/chapter/10.1007/978-3-319-29485-8_7  
 [3] UTT: Decentralized Ecash with Accountable Privacy - Alin Tomescu, Adithya Bhat, Benny Applebaum, Ittai Abraham, Guy Gueta, Benny Pinkas, and Avishay Yanai https://eprint.iacr.org/2022/452
 
 ## Benchmarks
 
-There are 4 benchmark scenarios:
-Non-Private means we verify a signature with the message in plain-sight, no using zero knowledge proof verification.
-Non-Batch means we verify each signature individually, we don't use Signature Batch verification (this comes from the PS based signature, if signatures are signed with the same key they can be aggregated before verification saving cost). Multi-issuer means we verify each individually because batch is not possible.
+- Non-Private means we verify a signature with the message in plain-sight, no using zero knowledge proof verification.
+- Non-Batch means we verify each signature individually, we don't use Signature Batch verification (this comes from the PS based signature, if signatures are signed with the same key they can be aggregated before verification saving cost). Multi-issuer means we verify each individually because batch is not possible.
 
 ## Results
 
@@ -41,7 +40,7 @@ These graphs show the benefit of single-issuer signature aggregation, but also s
 git clone https://github.com/sampolgar/mimc_abc.git
 cd mimc_abc
 
-# Bench
+# Bench (assumed you have rust installed)
 cargo bench
 ```
 
@@ -54,25 +53,6 @@ cargo bench
   - [`proof.rs`](src/proof.rs) - Zero-knowledge proof implementations
 - [`benches`](benches) - Performance benchmarking suite
   - [`credential_scenarios.rs`](benches/credential_scenarios.rs) - Benchmark scenarios
-
-## How to Run Benchmarks
-
-The project includes a comprehensive benchmarking suite to evaluate the performance of different verification methods. Follow these steps to run the benchmarks:
-
-1. **Install Rust**: Ensure you have Rust installed. You can install it from [rustup.rs](https://rustup.rs/).
-
-2. **Clone the Repository**:
-
-   ```sh
-   git clone https://github.com/sampolgar/mimc_abc.git
-   cd mimc_abc
-   ```
-
-3. **Run Benchmarks**:
-
-   ```sh
-   cargo bench
-   ```
 
 ## Citation
 
