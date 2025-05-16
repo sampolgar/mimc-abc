@@ -2,19 +2,35 @@
 
 ## Overview
 
-This is a research cryptography system benchmarking Anonymous Credentials scenarios. We are benchmarking the feasibility and efficieny of verifying multiple credentials together with Identity Binding - including zkp of an identifier within credentials. We run 4 scenarios for comparison:
+In a world where we are all using digital credential wallets and want to verify multiple credentials together, for example, a KYC scenario. I proposed `identity binding` in my paper (to be uploaded somewhere) as a security property and instantiated it with sigma protocols proving equality of an identifier within credentials.
 
-- Non-private, non-batch verification
-- Non-private batch verification
-- Multi-credential batch verification
-- Multi-issuer identity binding verification
+Much of the existing literature shows benchmarks for anonymous credential systems like Idemix to be at 110ms, 220ms, 450ms for 1,2,3 credentials [1] or Microsoft’s U-Prove to be (180ms,460ms,600ms) for 1,2,3 credentials verified together[1]. That's not efficient enough!
 
-### Why MIMC-ABC is Important
+So this project confirms that it is actually efficient enought to be used and adding privacy costs 2.6x non-private scheme does (using PS based signatures and zero knowledge proofs.).
 
-In real-world scenarios, users often need to present credentials from multiple sources while maintaining their privacy. For example:
+I use a PS Signature [2] based off the construction in the UTT paper[3] and discuss this in [my Thesis](https://github.com/sampolgar/mphil)
 
-- A user may need to prove they hold a government-issued ID, an employer credential, and a training certificate, all tied to the same identity, without revealing their identity.
-- In content credentialing, a user may present images signed by different devices to a journal, proving they share an account while selectively disclosing metadata.
+[1] Evaluation of Privacy-ABC Technologies - a Study on the Computational Efficieny https://link.springer.com/chapter/10.1007/978-3-319-41354-9_5
+[2] Short Randomizable Signature - David Pointcheval, Olivier Sanders: https://link.springer.com/chapter/10.1007/978-3-319-29485-8_7
+[3] UTT: Decentralized Ecash with Accountable Privacy - Alin Tomescu, Adithya Bhat, Benny Applebaum, Ittai Abraham, Guy Gueta, Benny Pinkas, and Avishay Yanai https://eprint.iacr.org/2022/452
+
+## Benchmarks
+
+There are 4 benchmark scenarios:
+Non-Private means we verify a signature with the message in plain-sight, no using zero knowledge proof verification.
+Non-Batch means we verify each signature individually, we don't use Signature Batch verification (this comes from the PS based signature, if signatures are signed with the same key they can be aggregated before verification saving cost). Multi-issuer means we verify each individually because batch is not possible.
+
+## Results
+
+### Privacy Overhead
+
+These graphs show the cost of privacy for single-issuer (left) and multi-issuer(right) credential use with multiple credentials. The graph shows a 2.6x increase in Show+Verify time for private multi-credential use. The left graph shows single-issuer multi-credential verification (with batch verification). The right graph shows multi-issuer multi-credential verification (no batch verification). Both graphs use a credential with 16 attributes displaying Show+Verify time
+![cost of privacy for single-issuer (left) and multi-issuer(right) credential use with multiple credentials](benches_analysis/extracts/privacy_overhead.png)
+
+### Batch Verify Speedup
+
+These graphs show the benefit of single-issuer signature aggregation, but also show that multi-issuer credential verification adds small 2.4x-3x overhead and therefore does not impact the Show+Verify significantly
+![benefit of single-issuer signature aggregation](benches_analysis/extracts/batch_speedup.png)
 
 ## Installation
 
@@ -67,6 +83,9 @@ The project includes a comprehensive benchmarking suite to evaluate the performa
 
    For detailed analysis, check the [`benches_analysis`](benches_analysis) directory, which contains Python scripts for data extraction and visualization.
 
+I show execution times for verifying multiple credentials together with identity binding. The worst case scenario for 32 credentials from different issuers is 200ms which is very fast!
+![alt text](benches_analysis/extracts/identity_binding_combined_performance.png)
+
 ## Technical Background
 
 MIMC-ABC employs position-binding commitments and zero-knowledge proofs to cryptographically bind credentials from distinct issuers to a single, private identifier. Our security model formalizes the identity binding property, ensuring anonymity and unforgeability even against colluding adversaries.
@@ -85,6 +104,8 @@ If you use MIMC-ABC in your research, please cite it as:
   year = {2025}
 }
 ```
+
+Originally from my project `https://github.com/sampolgar/anonymous-credentials/tree/main/mimc_abc`
 
 ## Contributing
 
